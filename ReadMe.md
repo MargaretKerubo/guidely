@@ -1,6 +1,6 @@
 # 📚 Guidely - Internal Knowledge Assistant
 
-[cite_start]Guidely is an internal support assistant designed to help team members quickly find accurate, plain-language answers from company documents without digging through pages of text[cite: 1, 4]. [cite_start]Powered by **Retrieval-Augmented Generation (RAG)**, Guidely combines semantic search with real-time text generation while always providing clear citations for its sources[cite: 2, 5].
+Guidely is an internal support assistant designed to help team members quickly find accurate, plain-language answers from company documents without digging through pages of text[cite: 1, 4]. Powered by **Retrieval-Augmented Generation (RAG)**, Guidely combines semantic search with real-time text generation while always providing clear citations for its sources[cite: 2, 5].
 
 ---
 
