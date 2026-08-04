@@ -1,0 +1,7 @@
+IT Support Guidelines
+
+If you encounter issues with your workstation, please try restarting it first.
+To request a hardware upgrade or replacement (e.g., new monitor, keyboard), submit a request to the IT department.
+All company laptops are managed via MDM. Do not attempt to uninstall the management profile.
+VPN access is required for accessing internal staging servers. You can download the VPN client from the IT self-service portal.
+For urgent issues (e.g., account lockouts, data breaches), call the 24/7 IT emergency hotline at ext 5555.

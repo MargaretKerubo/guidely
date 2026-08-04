@@ -1,0 +1,8 @@
+System Onboarding Guide
+
+Welcome to Guidely! To get started:
+1. Log into your company email account.
+2. Go to the Okta dashboard and set up two-factor authentication (2FA).
+3. Access the internal intranet and review the Employee Handbook.
+4. Request access to specific tools (Jira, GitHub, AWS) through the IT ticketing system.
+If you experience any issues, open a ticket at support.guidely.local.
