@@ -29,3 +29,8 @@ def test_cache_hit_metric():
     cache_hit = response2.headers.get("X-Cache-Hit")
     assert cache_hit is not None, "Cache hit header not found"
     assert cache_hit == "true", "Cache was not hit on repeated request"
+
+def test_failure_handling():
+    # Sending request to a non-existent endpoint
+    response = client.get("/api/nonexistent")
+    assert response.status_code == 404
