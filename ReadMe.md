@@ -51,8 +51,28 @@ guidely/
 ├── requirements.txt
 ├── .env.example
 └── README.md
-[cite_start]
-http://googleusercontent.com/immersive_entry_chip/0
+## 🚀 Setup Instructions
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/MargaretKerubo/guidely.git
+   cd guidely
+   ```
+2. **Backend Setup:**
+   ```bash
+   cd backend
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   cp .env.example .env # Add your OPENAI_API_KEY
+   uvicorn main:app --reload --port 8000
+   ```
+3. **Frontend Setup:**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
 
 Frontend will be running at: `http://localhost:5173`
 
