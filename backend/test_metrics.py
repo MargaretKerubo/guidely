@@ -20,3 +20,12 @@ def test_latency_under_3s():
     process_time = float(process_time_str)
     
     assert process_time < 3.0, f"Latency {process_time} exceeded 3s limit"
+
+def test_cache_hit_metric():
+    # Sending two identical requests to simulate a cache hit
+    response1 = client.get("/health")
+    response2 = client.get("/health")
+    
+    cache_hit = response2.headers.get("X-Cache-Hit")
+    assert cache_hit is not None, "Cache hit header not found"
+    assert cache_hit == "true", "Cache was not hit on repeated request"
