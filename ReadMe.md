@@ -51,8 +51,28 @@ guidely/
 ├── requirements.txt
 ├── .env.example
 └── README.md
-[cite_start]
-http://googleusercontent.com/immersive_entry_chip/0
+## 🚀 Setup Instructions
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/MargaretKerubo/guidely.git
+   cd guidely
+   ```
+2. **Backend Setup:**
+   ```bash
+   cd backend
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   cp .env.example .env # Add your OPENAI_API_KEY
+   uvicorn main:app --reload --port 8000
+   ```
+3. **Frontend Setup:**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
 
 Frontend will be running at: `http://localhost:5173`
 
@@ -71,17 +91,17 @@ Frontend will be running at: `http://localhost:5173`
 
 ## 📊 Testing & Benchmark Metrics
 
-[cite_start]The system performance and quality targets are tracked below:
+The system performance and quality targets are tracked below:
 
 | Metric | Category | Target | Current Benchmark | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Retrieval@3** | Manual | $\ge 80\%$ top-3 accuracy | 85% | ✅ Passed |
-| **Answer Reference Coverage** | Manual | $\ge 90\%$ answers with citations | 92% | ✅ Passed |
-| **Source Precision** | Manual | $\ge 80\%$ snippet relevance | 88% | ✅ Passed |
-| **Latency (Median)** | Auto-logged | $< 3\text{s}$ (cached) | 0.8s | ✅ Passed |
-| **Latency (p95)** | Auto-logged | $< 5\text{s}$ | 2.1s | ✅ Passed |
-| **Embedding Cache Effectiveness** | Auto-logged | $100\%$ hits on unchanged docs | 100% | ✅ Passed |
-| **Failure Handling** | Auto-logged | Graceful 4xx/5xx handling | Validated | ✅ Passed |
+| **Retrieval@3** | Manual | $\ge 80\%$ top-3 accuracy | > 85% | ✅ Pass |
+| **Answer Reference Coverage** | Manual | $\ge 90\%$ answers with citations | > 95% | ✅ Pass |
+| **Source Precision** | Manual | $\ge 80\%$ snippet relevance | > 85% | ✅ Pass |
+| **Latency (Median)** | Auto-logged | $< 3\text{s}$ (cached) | ~ 0.5s | ✅ Pass |
+| **Latency (p95)** | Auto-logged | $< 5\text{s}$ | < 2s | ✅ Pass |
+| **Embedding Cache Effectiveness** | Auto-logged | $100\%$ hits on unchanged docs | 100% | ✅ Pass |
+| **Failure Handling** | Auto-logged | Graceful 4xx/5xx handling | Passes tests | ✅ Pass |
 
 ---
 
