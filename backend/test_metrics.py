@@ -1,42 +1,42 @@
-import time
+import pytest
 from fastapi.testclient import TestClient
+import time
 from backend.main import app
 
 client = TestClient(app)
 
-def run_metrics_validation():
-    print("Running Automated Backend Metrics Validation...\n")
-    
-    # 1. Failure Handling Validation
-    print("1. Testing Failure Handling (Empty Query)...")
+def test_metrics_endpoint():
+    response = client.get("/metrics")
+    assert response.status_code == 200
+    assert response.json()["status"] == "ok"
+
+def test_failure_handling_empty_query():
+    # Test Empty Query
     resp_empty = client.post("/api/search", json={"query": ""})
-    if resp_empty.status_code == 400:
-        print("✅ Pass: Empty query gracefully handled with 400 Bad Request.")
-    else:
-        print(f"❌ Fail: Expected 400, got {resp_empty.status_code}")
+    assert resp_empty.status_code == 400
 
-    # 2. Latency Validation
-    print("\n2. Testing Latency (< 3s)...")
-    start = time.time()
+def test_failure_handling_nonexistent():
+    # Test non-existent endpoint
+    response = client.get("/api/nonexistent")
+    assert response.status_code == 404
+
+def test_latency_and_cache_hit():
+    # Only test latency if an API key is present, otherwise we expect 500 error for configuration
     resp_search = client.post("/api/search", json={"query": "What is the policy?"})
-    latency = time.time() - start
     
-    # Check if we have an OpenAI API Key configured
     if resp_search.status_code == 500 and "API key" in resp_search.text:
-         print("⚠️ Skip: OpenAI API Key missing, but failure handled gracefully.")
-    else:
-        if latency < 3.0:
-            print(f"✅ Pass: Latency is {latency:.2f}s (Target < 3.0s)")
-        else:
-            print(f"❌ Fail: Latency is {latency:.2f}s, which exceeds 3.0s")
-            
-        # 3. Cache Hits Validation
-        print("\n3. Testing Cache Hits Header...")
-        cache_hit = resp_search.headers.get("X-Cache-Hit")
-        if cache_hit == "true":
-            print("✅ Pass: X-Cache-Hit header indicates a cache hit.")
-        else:
-            print("⚠️ Notice: Request was too slow to be considered a cache hit, or header missing.")
-
-if __name__ == "__main__":
-    run_metrics_validation()
+        pytest.skip("OpenAI API Key missing, skipping latency test.")
+    
+    # We should get a successful response if configured
+    assert resp_search.status_code == 200
+    
+    # Check that latency header exists and is under 3.0s
+    process_time_str = resp_search.headers.get("X-Process-Time")
+    assert process_time_str is not None, "Latency header not found"
+    process_time = float(process_time_str)
+    assert process_time < 3.0, f"Latency {process_time} exceeded 3s limit"
+    
+    # Send second request to simulate cache hit
+    resp_search_2 = client.post("/api/search", json={"query": "What is the policy?"})
+    cache_hit = resp_search_2.headers.get("X-Cache-Hit")
+    assert cache_hit == "true", "Cache was not hit on repeated request"
