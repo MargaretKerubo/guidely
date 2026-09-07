@@ -1,10 +1,10 @@
 import os
 import json
 from typing import Dict, Any, List
-from openai import OpenAI
+from groq import Groq
 from backend.utils.vector_store import vector_store
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def generate_answer(query: str) -> Dict[str, Any]:
     """
@@ -47,7 +47,7 @@ def generate_answer(query: str) -> Dict[str, Any]:
     
     # Call LLM
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="llama3-8b-8192",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
