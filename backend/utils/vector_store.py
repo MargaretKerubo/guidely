@@ -2,15 +2,16 @@ import os
 import faiss
 import numpy as np
 from typing import List, Dict, Any
-from openai import OpenAI
+from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Initialize local embedding model
+model = SentenceTransformer('all-MiniLM-L6-v2')
 
-# Dimensionality of text-embedding-3-small
-EMBEDDING_DIM = 1536 
+# Dimensionality of all-MiniLM-L6-v2
+EMBEDDING_DIM = 384 
 
 class VectorStore:
     def __init__(self):
@@ -18,12 +19,10 @@ class VectorStore:
         self.metadata: List[Dict[str, Any]] = []
         
     def get_embedding(self, text: str) -> List[float]:
-        """Fetch embedding from OpenAI."""
-        response = client.embeddings.create(
-            input=text,
-            model="text-embedding-3-small"
-        )
-        return response.data[0].embedding
+        """Fetch embedding from local SentenceTransformer model."""
+        # encode returns a numpy array, convert to list of floats
+        embedding = model.encode(text)
+        return embedding.tolist()
         
     def add_chunks(self, chunks: List[str], source_filename: str):
         """Embed and add chunks to the FAISS index."""
