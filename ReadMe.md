@@ -8,7 +8,8 @@ Guidely is an internal support assistant designed to help team members quickly f
 
 * **Frontend:** React (Vite), Tailwind CSS, Lucide Icons
 * **Backend:** FastAPI (Python), Uvicorn
-* **Embeddings & LLM:** OpenAI API (`text-embedding-3-small`, `gpt-4o-mini` / `gpt-3.5-turbo`)
+* **Embeddings:** Local `sentence-transformers` (`all-MiniLM-L6-v2`)
+* **LLM:** Groq API (`qwen/qwen3.8-27b`)
 * **Vector Store:** FAISS
 * **Environment Management:** `python-dotenv`
 
@@ -18,7 +19,7 @@ Guidely is an internal support assistant designed to help team members quickly f
 
 1. **Document Ingestion & Chunking:** Ingests plain text and markdown documents from `/data/sample-docs/`, splitting them into small context chunks (~500–1,000 tokens) with overlap.
 2. **Hashing & Caching:** Computes SHA256 hashes of files to prevent re-embedding unchanged documents.
-3. **Vector Embeddings & Indexing:** Converts text chunks into vector embeddings via OpenAI and stores them in a local FAISS index.
+3. **Vector Embeddings & Indexing:** Converts text chunks into vector embeddings via local `sentence-transformers` and stores them in a local FAISS index.
 4. **Retrieval & RAG Generation:** * Embeds the user query.
    * Retrieves top-$k$ ($k=3$) most similar text snippets.
    * Sends snippets and the user query to the LLM with instructions to cite sources.
@@ -66,7 +67,7 @@ guidely/
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
-   cp .env.example .env # Add your OPENAI_API_KEY
+   cp .env.example .env # Add your GROQ_API_KEY and OPENAI_API_KEY
    uvicorn main:app --reload --port 8000
    ```
 3. **Frontend Setup:**
